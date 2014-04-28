@@ -1,0 +1,27 @@
+diff --git a/app/AppKernel.php b/app/AppKernel.php
+index 25dc76e..806779f 100644
+--- a/app/AppKernel.php
++++ b/app/AppKernel.php
+@@ -123,4 +123,22 @@ class AppKernel extends Kernel
+     {
+         $loader->load(__DIR__.'/config/config_' . $this->getEnvironment() . '.yml');
+     }
++
++    public function getCacheDir()
++    {
++        if (in_array($this->environment, array('dev', 'test'))) {
++            return '/dev/shm/symfony/cache/' .  $this->environment;
++        }
++
++        return parent::getCacheDir();
++    }
++
++    public function getLogDir()
++    {
++        if (in_array($this->environment, array('dev', 'test'))) {
++            return '/dev/shm/symfony/logs';
++        }
++
++        return parent::getLogDir();
++    }
+ }

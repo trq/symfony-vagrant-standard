@@ -1,0 +1,58 @@
+hostname              = "dev.lcl"
+db_name               = "symfony"
+server_ip             = "192.168.10.10"
+server_memory         = "768" # MB
+server_timezone       = "Australia/Sydney"
+
+mysql_version         = "5.6"    # Options: 5.5 | 5.6
+php_version           = "latest" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
+
+ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
+ruby_gems             = [        # List any Ruby Gems that you want to install
+  "sass",
+  "compass",
+  "capifony"
+]
+
+nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
+nodejs_packages       = [          # List any global NodeJS packages that you want to install
+  "bower",
+  "gherkin-mocha",
+  "grunt-cli",
+  "grunt-contrib-concat",
+  "grunt-contrib-uglify",
+  "grunt-contrib-watch",
+  "grunt-contrib-compass",
+  "grunt-regex-replace",
+  "grunt-contrib-cssmin",
+  "phantomjs"
+]
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.hostname = hostname
+  config.vm.network :private_network, ip: server_ip
+
+  config.vm.synced_folder "./../", "/.vagrant", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp,noatime']
+  config.bindfs.bind_folder "/.vagrant", "/vagrant", owner: "vagrant", group: "www-data", :perms => "u=rwX:g=rwX:o=r", o: "nonempty"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", server_memory]
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--name", hostname]
+  end
+
+  # We add all extra repos in apt.sh once so that we don't have to keep updating.
+  config.vm.provision "shell", path: "./scripts/apt.sh", args: [php_version, mysql_version]
+  config.vm.provision "shell", path: "./scripts/base.sh"
+  config.vm.provision "shell", path: "./scripts/php.sh", args: [php_version, server_timezone]
+  config.vm.provision "shell", path: "./scripts/apache.sh"
+  config.vm.provision "shell", path: "./scripts/mysql.sh", args: [mysql_version]
+  config.vm.provision "shell", path: "./scripts/composer.sh", privileged: false
+  config.vm.provision "shell", path: "./scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version)
+  config.vm.provision "shell", path: "./scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
+  config.vm.provision "shell", path: "./scripts/site.sh", args: [hostname, db_name, server_ip]
+
+end
