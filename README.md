@@ -28,7 +28,11 @@ Included:
 # Installation
 
 ```shell
+# Via composer or Git clone
+composer create-project trq/symfony-vagrant-standard project_dir
+# or
 git clone https://github.com/trq/symfony-vagrant-standard.git project_dir
+
 cd project_dir
 
 # If you haven't already, install the vagrant-bindfs plugin for vagrant
