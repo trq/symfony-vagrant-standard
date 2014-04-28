@@ -21,9 +21,7 @@ Included:
 * PhantomJS
 * Mocha & Mocha Gherkin
 
-[1]: https://github.com/symfony/symfony-standard
-[2]: http://behat.org
-[3]: http://phpspec.net
+It should be noted that the scripts within the vagrant/scripts directory were taken almost verbosely from the awesome [Vaprobash][4] project.
 
 # Installation
 
@@ -44,3 +42,8 @@ cd app && patch < ../vagrant/files/app_kernel.patch
 ```
 
 Now visit http://dev.lcl in your brooser.
+
+[1]: https://github.com/symfony/symfony-standard
+[2]: http://behat.org
+[3]: http://phpspec.net
+[4]: https://github.com/fideloper/Vaprobash
