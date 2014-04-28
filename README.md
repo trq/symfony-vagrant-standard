@@ -24,3 +24,20 @@ Included:
 [1]: https://github.com/symfony/symfony-standard
 [2]: http://behat.org
 [3]: http://phpspec.net
+
+# Installation
+
+```shell
+git clone https://github.com/trq/symfony-vagrant-standard.git project_dir
+cd project_dir
+
+# If you haven't already, install the vagrant-bindfs plugin for vagrant
+vagrant plugin install vagrant-bindfs
+
+vagrant up
+
+# Add the dev.lcl hostname to your hosts file:
+echo "192.168.10.10 wr.lcl" | sudo tee -e /etc/hosts
+```
+
+Now visit http://dev.lcl in your brooser.
