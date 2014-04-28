@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "trq/symfony-vagrant-standard",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "The \"Symfony Standard Edition\" distribution within a Vagrant VM",
     "autoload": {
         "psr-0": { "": "src/" }
     },
@@ -19,6 +19,10 @@
         "sensio/framework-extra-bundle": "~3.0",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0"
+    },
+    "require-dev": {
+        "behat/behat": "3.0.*@dev",
+        "phpspec/phpspec": "2.0.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -48,9 +52,5 @@
         "branch-alias": {
             "dev-master": "2.4-dev"
         }
-    },
-    "require-dev": {
-        "behat/behat": "3.0.*@dev",
-        "phpspec/phpspec": "2.0.*@dev"
     }
 }
