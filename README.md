@@ -38,6 +38,9 @@ vagrant up
 
 # Add the dev.lcl hostname to your hosts file:
 echo "192.168.10.10 wr.lcl" | sudo tee -e /etc/hosts
+
+# You should apply the following patch to the AppKernel to improve performance when using an NSF filesystems
+cd app && patch < ../vagrant/files/app_kernel.patch
 ```
 
 Now visit http://dev.lcl in your brooser.
